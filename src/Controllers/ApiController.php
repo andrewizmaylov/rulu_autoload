@@ -38,26 +38,28 @@ class ApiController extends FetchController {
 
 	public static function get()
 	{
-		if (!isset($_GET['id']) && parse_url($_SERVER['REQUEST_URI'])['path'] === PathEnums::USER->value) {
 		if (self::isApiRequest()) {
 			header('Content-Type: application/json');
 		}
 
+		if (
+			parse_url($_SERVER['REQUEST_URI'])['path'] === PathEnums::USER->value
+			&& empty($_GET)
+		) {
 			return self::respond([
 				"success" => true,
 				"result"  => null
 			]);
 		}
 		try {
-			$userId = $_GET['id'] ?? null;
 			$queryParams = [];
 
 			// Базовый запрос
 			$query = "SELECT * FROM `users` WHERE 1=1";
 
-			if ($userId) {
+			if (isset($_GET['id'])) {
 				$query .= " AND id = :id";
-				$queryParams['id'] = $userId;
+				$queryParams['id'] = $_GET['id'];
 			}
 
 			if (isset($_GET['full_name'])) {
@@ -75,7 +77,7 @@ class ApiController extends FetchController {
 
 			$stmt = Database::getConnection()->prepare($query);
 			$stmt->execute($queryParams);
-			$user = $userId ? $stmt->fetch() : $stmt->fetchAll();
+			$user = $stmt->fetchAll();
 
 			if ($user) {
 				return self::respond([
