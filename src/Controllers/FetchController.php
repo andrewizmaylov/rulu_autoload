@@ -10,7 +10,7 @@ abstract class FetchController  implements CrudInterface
 	/**
 	 * @return bool
 	 */
-	protected static function isApiRequest(): bool
+	public static function isApiRequest(): bool
 	{
 		return strrpos(parse_url($_SERVER['REQUEST_URI'])['path'], PathEnums::API->value) === 0;
 	}

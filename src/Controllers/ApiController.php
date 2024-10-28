@@ -7,6 +7,10 @@ use App\Services\Database;
 
 class ApiController extends FetchController {
 	public static function create() {
+		if (self::isApiRequest()) {
+			header('Content-Type: application/json');
+		}
+
 		try {
 			$data = self::sanitize();
 
@@ -35,6 +39,10 @@ class ApiController extends FetchController {
 	public static function get()
 	{
 		if (!isset($_GET['id']) && parse_url($_SERVER['REQUEST_URI'])['path'] === PathEnums::USER->value) {
+		if (self::isApiRequest()) {
+			header('Content-Type: application/json');
+		}
+
 			return self::respond([
 				"success" => true,
 				"result"  => null
@@ -87,6 +95,10 @@ class ApiController extends FetchController {
 
 	public static function update()
 	{
+		if (self::isApiRequest()) {
+			header('Content-Type: application/json');
+		}
+
 		$userId = $_GET['id'] ?? null;
 		if (!$userId) {
 			return self::respond([
@@ -133,6 +145,10 @@ class ApiController extends FetchController {
 
 	public static function delete()
 	{
+		if (self::isApiRequest()) {
+			header('Content-Type: application/json');
+		}
+
 		$userId = $_GET['id'] ?? null;
 		try {
 			if ($userId) {
