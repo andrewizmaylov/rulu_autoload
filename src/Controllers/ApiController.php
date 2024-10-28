@@ -17,11 +17,11 @@ class ApiController extends FetchController {
 			if (empty($data['full_name'])) {
 				throw new \Exception('Invalid payload: full_name is required.');
 			}
-
-			$stmt = Database::getConnection()->prepare("INSERT INTO `users` (full_name, role, efficiency) VALUES (:full_name, :role, :efficiency)");
+			$connection = Database::getConnection();
+			$stmt = $connection->prepare("INSERT INTO `users` (full_name, role, efficiency) VALUES (:full_name, :role, :efficiency)");
 			$stmt->execute($data);
 
-			$userId = Database::getConnection()->lastInsertId();
+			$userId = $connection->lastInsertId();
 
 			return self::respond([
 				"success" => true,
