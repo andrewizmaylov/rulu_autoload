@@ -4,6 +4,7 @@ namespace App\Views;
 
 use App\Contracts\PageInterface;
 use App\Controllers\ApiController;
+use App\Controllers\FetchController;
 use App\Enums\PathEnums;
 
 abstract class BasePage implements PageInterface
@@ -14,9 +15,12 @@ abstract class BasePage implements PageInterface
 	public function __construct()
     {
 	    $data = ApiController::get();
-	    $this->data = json_decode($data, true);
 
-	    echo $this->buildPage();
+		if (!FetchController::isApiRequest()) {
+		    $this->data = json_decode($data, true);
+
+		    echo $this->buildPage();
+		}
     }
 
 	public function buildPage(): string

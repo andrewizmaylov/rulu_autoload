@@ -15,7 +15,7 @@ abstract class FetchController  implements CrudInterface
 		return strrpos(parse_url($_SERVER['REQUEST_URI'])['path'], PathEnums::API->value) === 0;
 	}
 
-	protected static function respond($data): false|string|null
+	protected static function respond($data)
 	{
 		$jsonData = json_encode($data);
 

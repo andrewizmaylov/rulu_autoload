@@ -49,7 +49,7 @@ class Builder
 			                    <tbody class="divide-y divide-gray-200">';
 
 
-			foreach ($data['result'] as $user) {
+			foreach ($data['result']['users'] as $user) {
 				$body .= self::getTableRow($user);
 			}
 

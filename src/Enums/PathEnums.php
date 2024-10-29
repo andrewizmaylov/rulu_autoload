@@ -6,5 +6,5 @@ enum PathEnums: string
 {
 	case HOME = '/';
 	case USER = '/user';
-	case API = '/api';
+	case API = '/api/v1/users';
 }

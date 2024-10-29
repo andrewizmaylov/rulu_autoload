@@ -24,7 +24,7 @@ class FormPage extends BasePage
 		if (!$this->data['success']) return Builder::renderError();
 
 		return !empty($this->data['result']) && count($this->data['result']) > 1
-			? Builder::renderTable($this->data) : Builder::renderForm($this->data['result'][0] ?? null);
+			? Builder::renderTable($this->data) : Builder::renderForm($this->data['result']['users'][0]?? null);
 	}
 
 	private function updateData(): void
